@@ -8,7 +8,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 RESTRICT="fetch mirror strip bindist"
 BDEPEND="dev-util/patchelf"
-RDEPEND="net-libs/webkit-gtk:4.1
+RDEPEND="net-libs/webkit-gtk:4.1[X]
   app-misc/ca-certificates"
 SRC_URI="adskidentitymanager1.18.1.2-1.x86_64.rpm"
 S=${WORKDIR}

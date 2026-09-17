@@ -164,6 +164,13 @@ optimization framework and currently omits a `maya-gentoo` repos.conf entry;
 host until the administrator registers the overlay in the active Portage
 configuration. This pass did not mutate that framework-owned configuration.
 
+An isolated stable-profile resolver also showed the GUI USE requirements that
+must be enabled for a clean graph: Cairo X, libglvnd X, Freetype harfbuzz,
+WebKitGTK X, and GStreamer base OpenGL. These are now documented in the
+Quick Start and Portage guide. The remaining isolated-graph conflicts were
+host-world/system package selections (including libclc and systemd-utils),
+not missing Maya overlay dependencies.
+
 The live authenticated desktop test also showed that Autodesk's
 `AdskIdentityManager --register` can remain resident without returning. The
 helper now bounds that subprocess to 30 seconds, installs the callback before

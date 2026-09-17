@@ -13,7 +13,7 @@ RDEPEND="
   app-autodesk/adsk-identity-manager
   app-autodesk/adp-desktop-sdk
   media-libs/mesa
-  media-libs/libglvnd
+  media-libs/libglvnd[X]
   x11-libs/libX11
   x11-libs/libxcb
   x11-libs/libXcursor
@@ -38,7 +38,7 @@ RDEPEND="
   dev-libs/wayland
   app-crypt/mit-krb5
   media-libs/fontconfig
-  media-libs/freetype
+  media-libs/freetype[harfbuzz]
   media-libs/glew
   media-libs/libpng
   media-libs/tiff-compat

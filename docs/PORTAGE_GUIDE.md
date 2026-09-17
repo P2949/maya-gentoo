@@ -38,6 +38,21 @@ After ebuild changes, regenerate Manifests, run pkgcheck, and perform a
 Portage dry-run. Reject resolver plans that downgrade or replace glibc,
 OpenSSL, Qt, Python, Mesa, the compiler, or the system C++ policy.
 
+For a stable amd64 profile, accept the overlay's package keywords/licence and
+enable the X11 WebKit/graphics USE flags required by the Autodesk GUI before
+the dry-run:
+
+    # /etc/portage/package.accept_keywords/maya-gentoo
+    **/**::maya-gentoo ~amd64
+    # /etc/portage/package.license/maya-gentoo
+    **/**::maya-gentoo all-rights-reserved
+    # /etc/portage/package.use/maya-gentoo
+    x11-libs/cairo X
+    media-libs/libglvnd X
+    media-libs/freetype harfbuzz
+    net-libs/webkit-gtk X
+    media-libs/gst-plugins-base opengl
+
 ## Merge order
 
 Merge account packages if required, then Licensing, Identity Manager, ADP

@@ -13,7 +13,7 @@ RDEPEND="
   dev-libs/glib:2
   dev-libs/libpcre2
   dev-libs/libxml2
-  x11-libs/cairo
+  x11-libs/cairo[X]
   media-libs/fontconfig
   media-libs/freetype
   x11-libs/gdk-pixbuf
@@ -26,7 +26,7 @@ RDEPEND="
   x11-libs/libX11
   x11-libs/libXrandr
   x11-libs/pango
-  net-libs/webkit-gtk
+  net-libs/webkit-gtk[X]
 "
 SRC_URI="adp-desktop-sdk.zip"
 S=${WORKDIR}

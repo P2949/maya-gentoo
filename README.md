@@ -27,6 +27,12 @@ normal Portage configuration):
     **/**::maya-gentoo ~amd64
     # /etc/portage/package.license/maya-gentoo
     **/**::maya-gentoo all-rights-reserved
+    # /etc/portage/package.use/maya-gentoo
+    x11-libs/cairo X
+    media-libs/libglvnd X
+    media-libs/freetype harfbuzz
+    net-libs/webkit-gtk X
+    media-libs/gst-plugins-base opengl
 
     sha256sum ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
     /var/db/repos/maya-gentoo/tools/import-autodesk-payload.sh \
