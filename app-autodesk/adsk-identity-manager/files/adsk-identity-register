@@ -4,8 +4,9 @@ set -euo pipefail
 identity=/opt/Autodesk/AdskIdentityManager/Current/AdskIdentityManager
 [[ -x ${identity} ]] || { echo "Autodesk Identity Manager is not installed" >&2; exit 1; }
 command -v xdg-mime >/dev/null || { echo "xdg-mime is required" >&2; exit 1; }
+command -v timeout >/dev/null || { echo "timeout is required" >&2; exit 1; }
 register_status=0
-"${identity}" --register || register_status=$?
+timeout --foreground 30s "${identity}" --register || register_status=$?
 appdir=${XDG_DATA_HOME:-${HOME}/.local/share}/applications
 mkdir -p "${appdir}"
 mkdir -p "${XDG_CONFIG_HOME:-${HOME}/.config}"
@@ -29,6 +30,10 @@ fi
 xdg-mime default "$(basename "${desktop}")" x-scheme-handler/adskidmgr
 echo "Autodesk Identity Manager registered for ${USER}"
 if (( register_status != 0 )); then
-  echo "Identity Manager registration command failed with status ${register_status}; desktop callback was installed" >&2
+  if (( register_status == 124 )); then
+    echo "Identity Manager registration timed out after 30 seconds; desktop callback was installed" >&2
+  else
+    echo "Identity Manager registration command failed with status ${register_status}; desktop callback was installed" >&2
+  fi
   exit "${register_status}"
 fi
