@@ -1,0 +1,16 @@
+# Proprietary Autodesk payloads and runtime/account data must not enter Git.
+*.rpm
+*.zip
+*.tgz
+*.tar
+*.tar.gz
+payload/distfiles/
+payload/extracted/
+staging/
+test-output/
+logs/
+*.token
+*.cookie
+*entitlement*
+*license*.json
+*oauth*
