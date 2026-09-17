@@ -61,17 +61,22 @@ writes proprietary payloads into the repository.
 The following checks passed on the target Gentoo host:
 
 1. `portageq get_repo_path / maya-gentoo` resolves to the new live checkout.
-2. `media-gfx/maya-2027.2` is recorded in the VDB with repository
+2. `media-gfx/maya-2027.2-r1` is recorded in the VDB with repository
    `maya-gentoo`.
-3. `media-gfx/maya-2027.2` was re-emerged from `::maya-gentoo`.
-4. The OpenRC `adsklicensing` service is started.
-5. `AdskLicensingInstHelper` reports Maya feature `MAYA`, product key `657S1`,
+3. `media-gfx/maya-2027.2-r1` was re-emerged from `::maya-gentoo`; the
+   revision carries the launcher/runtime corrections made after the original
+   `2027.2` publication.
+4. `app-autodesk/adsk-identity-manager-1.18.1.2-r1` was re-emerged from
+   `::maya-gentoo` and records `maya-gentoo` in its VDB.
+5. `app-autodesk/adp-desktop-sdk-6.3.34` records `maya-gentoo` in its VDB.
+6. The OpenRC `adsklicensing` service is started.
+7. `AdskLicensingInstHelper` reports Maya feature `MAYA`, product key `657S1`,
    and `authorize_succ: true`.
-6. `mayapy` standalone startup succeeds.
-7. Maya batch mode returns `2027`.
-8. Xwayland is available with direct accelerated Mesa GLX rendering and
+8. `mayapy` standalone startup succeeds.
+9. Maya batch mode returns `2027`.
+10. Xwayland is available with direct accelerated Mesa GLX rendering and
    OpenGL 4.6 on the AMD Radeon test GPU.
-9. The known GUI startup crash fix is present: Maya is launched through the
+11. The known GUI startup crash fix is present: Maya is launched through the
    XCB-scoped wrapper and its private empty `libmd.so` compatibility file is
    installed.
 
@@ -79,26 +84,34 @@ The GUI/license success was also observed interactively after Autodesk
 authentication. Arnold is intentionally not claimed because it was absent
 from the tested Autodesk payload.
 
-## Known incomplete items and evidence
+## Closure results and remaining host diagnostic
 
-One installed component still retains the old VDB repository label:
+Identity Manager revision `1.18.1.2-r1` eliminates the package-external
+WebKitGTK compatibility links. Inspection of the actual RPM found exactly one
+consumer of the obsolete SONAMEs: `libIdServicesCore.so`. The ebuild uses
+`dev-util/patchelf` in `src_prepare()` to replace
+`libwebkit2gtk-4.0.so.37` with `libwebkit2gtk-4.1.so.0` and
+`libjavascriptcoregtk-4.0.so.18` with `libjavascriptcoregtk-4.1.so.0`.
+The RPM tree is installed with `cp -a` so executable modes and bundled links
+are preserved.
 
-- `app-autodesk/adsk-identity-manager-1.18.1.2`
+The staged test, Portage `src_prepare`, installed `ldd` resolution, and a
+bounded Identity Manager launch passed. The installed package contains no
+WebKit compatibility symlinks, and the patched library resolves to the real
+4.1 libraries. The old `local-autodesk` Identity Manager and Maya instances
+were removed during the revisioned merge. Their removal phases emitted the
+optimization framework's cross-generation diagnostic because the framework
+generation changed while replacing old VDB entries, but the new packages
+merged successfully and passed the package-image ABI guard. This is host
+framework housekeeping, not an Identity Manager external-SONAME failure.
 
-ADP Desktop SDK now re-emerges successfully from `::maya-gentoo`. Identity
-Manager's package source was corrected to EAPI-8 relative `dosym` calls, but
-the host ABI guard intentionally rejects the resulting symlinks because they
-resolve outside the staged package tree. The separate optimization framework
-currently has no production parser/schema for package exclusions: its
-`exclusions.yaml` and `package-overrides.yaml` are intentionally empty and
-its policy tests enforce that baseline. No unsupported exclusion format,
-optimization bypass, kernel, bootloader, EFI/NVRAM, or system-wide policy
-weakening was introduced. Maya, licensing, ADP, and all tested optional
-component packages are now owned by `maya-gentoo`; Identity Manager remains
-functional from its previous installed instance.
+`profiles/eapi` now declares repository EAPI 8, and `metadata/layout.conf`
+contains only repository-layout settings. No optimization exclusion, global
+policy change, kernel, bootloader, EFI/NVRAM, or boot-partition mutation was
+used.
 
-The package Manifest was regenerated after the repository-only ADP ebuild
-metadata change. `tools/qa.sh` passes its repository checks; `pkgcheck` still
+Manifests and metadata caches were regenerated for the new Identity Manager
+and Maya revisions. `tools/qa.sh` passes its repository checks; `pkgcheck` still
 prints non-fatal vendor-package warnings for Autodesk/Adobe URL access,
 absolute vendor symlinks, legacy dependencies, and formatting inherited from
 the working ebuilds. These are documented implementation warnings rather than
