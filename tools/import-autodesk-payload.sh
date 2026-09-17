@@ -43,18 +43,28 @@ esac
 
 map_file=${MAYA_IMPORT_MAP:-$work_root/component-map.tsv}
 printf 'kind\tpath\tsha256\tsize\n' > "$map_file"
+required_pattern() {
+  local family=$1 line
+  line=$(grep -E "^[[:space:]]*\"${family}\"[[:space:]]*:" "$release_file" | head -1)
+  line=${line#*\[}; line=${line%%\]*}; line=${line//\"/}; line=${line//\\\\/\\}
+  printf '%s\n' "$line"
+}
+classify_required() {
+  local name=$1 family pattern
+  for family in maya licensing identity adp-sdk; do
+    pattern=$(required_pattern "$family")
+    [[ -n $pattern ]] || continue
+    if grep -Eq "$pattern" <<<"$name"; then printf '%s\n' "$family"; return 0; fi
+  done
+  return 1
+}
 find "$extract_dir" -type f \( -iname '*.rpm' -o -iname '*.zip' -o -iname '*.tgz' -o -iname '*.tar.gz' \) -print0 |
 while IFS= read -r -d '' item; do
   rel=${item#"$extract_dir"/}
   kind=optional
   name=${rel##*/}
-  case "$name" in
-    *[Mm]aya*.rpm) kind=maya;;
-    *[Ll]icens*.rpm|*adsklic*.rpm) kind=licensing;;
-    *[Ii]dentity*.rpm|*adskidentity*.rpm) kind=identity;;
-    *[Aa]dp*.zip) kind=adp-sdk;;
-    *[Aa]rnold*.rpm|*MtoA*.rpm) kind=arnold;;
-  esac
+  if required_kind=$(classify_required "$name"); then kind=$required_kind; fi
+  case "$name" in *[Aa]rnold*.rpm|*MtoA*.rpm) kind=arnold;; esac
   hash=$(sha256sum "$item" | awk '{print $1}')
   size=$(stat -c '%s' "$item")
   printf '%s\t%s\t%s\t%s\n' "$kind" "$rel" "$hash" "$size" >> "$map_file"

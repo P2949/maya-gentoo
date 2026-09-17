@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata>
+<pkgmetadata>
+  <maintainer type="person">
+    <email>P2949@users.noreply.github.com</email>
+    <name>Maya Gentoo maintainers</name>
+  </maintainer>
+  <longdescription>Dedicated group for Autodesk licensing services.</longdescription>
+</pkgmetadata>

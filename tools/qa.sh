@@ -26,7 +26,7 @@ while IFS= read -r -d '' cache; do
 done < <(find metadata/md5-cache -type f -print0)
 if git grep -n -E '/home/p2949|DISPLAY=:0|overlay-worktree|/var/db/repos/local-autodesk' -- \
   ':!tools/qa.sh' ':!MAYA_GENTOO_REPOSITORY_AUTONOMOUS_PLAN.md' \
-  ':!MAYA_GENTOO_HANDOFF.md' ':!NATIVE_MAYA_GENTOO_AUTONOMOUS_PLAN.md'; then
+  ':!NATIVE_MAYA_GENTOO_AUTONOMOUS_PLAN.md' ':!docs/development/legacy-handoff.md'; then
   echo 'machine-specific path found in portable repository content' >&2; fail=1
 fi
 exit "$fail"

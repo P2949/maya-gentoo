@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata>
-<pkgmetadata>
-  <maintainer type="person">
-    <email>P2949@users.noreply.github.com</email>
-    <name>Maya Gentoo maintainers</name>
-  </maintainer>
+<!DOCTYPE catmetadata>
+<catmetadata>
   <longdescription>Autodesk Maya and separately packaged Maya components.</longdescription>
-</pkgmetadata>
+</catmetadata>

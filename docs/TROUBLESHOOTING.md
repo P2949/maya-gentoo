@@ -30,14 +30,13 @@ scoped to Autodesk. Do not disable TLS verification.
 Check both current-user handlers:
 
     xdg-mime query default x-scheme-handler/adskidmgr
-    xdg-mime query default x-scheme-handler/adsk.idmgr
 
 The account holder must perform credentials/MFA/consent; never share tokens.
 
 ## Licensing service fails
 
     rc-service adsklicensing status
-    tail -200 /usr/tmp/MayaCLM-16-09-2026.log
+    tail -200 "$(ls -1t /usr/tmp/MayaCLM-*.log | head -1)"
 
 Check service permissions and ELF dependencies before changing package files.
 

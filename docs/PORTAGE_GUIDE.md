@@ -68,10 +68,10 @@ Desktop SDK, compatibility packages, Maya, and optional components:
 
 Tested packages:
 
-    media-gfx/maya-2027.2-r2
+    media-gfx/maya-2027.2-r3
     app-autodesk/adsk-licensing-16.0.3.14414
     app-autodesk/adsk-identity-manager-1.18.1.2-r2
-    app-autodesk/adp-desktop-sdk-6.3.34
+    app-autodesk/adp-desktop-sdk-6.3.34-r1
     media-gfx/maya-usd-0.37.0
     media-gfx/bifrost-3.1.0.8
     media-gfx/lookdevx-2.2.0
@@ -96,14 +96,13 @@ true. Derive values from the current payload for future releases.
 Check callback handlers:
 
     xdg-mime query default x-scheme-handler/adskidmgr
-    xdg-mime query default x-scheme-handler/adsk.idmgr
 
 If credentials, MFA, consent, or EULA action is required, the account holder
 must complete it in the secure Autodesk window. Never store credentials,
 tokens, OAuth URLs, or cookies in Git. Inspect:
 
     /home/<user>/.local/share/Autodesk/Identity Services/Log/IdServices.log
-    /usr/tmp/MayaCLM-16-09-2026.log
+    ls -1t /usr/tmp/MayaCLM-*.log | head -1
 
 Successful evidence includes IsLoggedIn:true, Authorized, and
 ADLSDK_STATUS_OK.

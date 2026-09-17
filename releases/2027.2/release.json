@@ -13,6 +13,12 @@
     "media-gfx/lookdevx", "media-gfx/substance-maya"
   ],
   "required_component_families": ["maya", "licensing", "identity", "adp-sdk"],
+  "required_components": {
+    "maya": ["^Maya2027_64-2027\\.2-1839\\.x86_64\\.rpm$"],
+    "licensing": ["^adsklicensing16\\.0\\.3\\.14414-0-0\\.x86_64\\.rpm$"],
+    "identity": ["^adskidentitymanager1\\.18\\.1\\.2-1\\.x86_64\\.rpm$"],
+    "adp-sdk": ["^adp-desktop-sdk\\.zip$"]
+  },
   "optional_components": ["maya-usd", "bifrost", "lookdevx", "substance"],
   "absent_from_tested_payload": ["arnold-mtoa"],
   "registration_metadata_source": "MayaConfig.pit and Autodesk installer metadata",

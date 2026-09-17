@@ -61,14 +61,14 @@ writes proprietary payloads into the repository.
 The following checks passed on the target Gentoo host:
 
 1. `portageq get_repo_path / maya-gentoo` resolves to the new live checkout.
-2. `media-gfx/maya-2027.2-r2` is recorded in the VDB with repository
+2. `media-gfx/maya-2027.2-r3` is recorded in the VDB with repository
    `maya-gentoo`.
-3. `media-gfx/maya-2027.2-r2` was re-emerged from `::maya-gentoo`; the
+3. `media-gfx/maya-2027.2-r3` was re-emerged from `::maya-gentoo`; the
    revision carries the launcher/runtime corrections made after the original
    `2027.2` publication.
 4. `app-autodesk/adsk-identity-manager-1.18.1.2-r2` was re-emerged from
    `::maya-gentoo` and records `maya-gentoo` in its VDB.
-5. `app-autodesk/adp-desktop-sdk-6.3.34` records `maya-gentoo` in its VDB.
+5. `app-autodesk/adp-desktop-sdk-6.3.34-r1` records `maya-gentoo` in its VDB.
 6. The OpenRC `adsklicensing` service is started.
 7. `AdskLicensingInstHelper` reports Maya feature `MAYA`, product key `657S1`,
    and `authorize_succ: true`.
@@ -181,7 +181,7 @@ overlay: `dev-util/wayland-scanner-1.26.0` replaced installed `9999`, and
 `dev-util/mesa_clc-26.2.2` replaced installed `9999`. Both were planned only
 inside the temporary target root; neither was applied to the workstation.
 
-The final repository-correctness revisions are Maya `2027.2-r2`, Identity
+The final repository-correctness revisions are Maya `2027.2-r3`, Identity
 Manager `1.18.1.2-r2`, and ADP Desktop SDK `6.3.34-r1`. Identity Manager now
 declares `x11-misc/xdg-utils` and `sys-apps/coreutils` for its registration
 helper. The repository intentionally no longer commits `metadata/md5-cache`;

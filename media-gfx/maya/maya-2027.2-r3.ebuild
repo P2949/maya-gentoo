@@ -93,7 +93,8 @@ src_install() {
 pkg_config() {
   local helper=/opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper
   local pit=/var/opt/Autodesk/Adlm/Maya2027/MayaConfig.pit
-  [[ -x ${helper} && -f ${pit} ]] || { ewarn "Maya registration deferred: licensing helper or MayaConfig.pit is unavailable"; return 0; }
+  [[ -x ${helper} ]] || die "AdskLicensingInstHelper is unavailable at ${helper}; start/install Autodesk Licensing before emerge --config"
+  [[ -f ${pit} ]] || die "MayaConfig.pit is unavailable at ${pit}; verify the Maya payload was installed before emerge --config"
   "${helper}" list | grep -q '657S1' || "${helper}" register --prod_key 657S1 --prod_ver 2027.0.0.F --config_file "${pit}" --eula_locale US
 }
 pkg_postinst() {
@@ -104,3 +105,4 @@ pkg_postinst() {
   elog "Run 'emerge --config media-gfx/maya' to register Maya with Autodesk Licensing."
   elog "As the desktop user, run 'adsk-identity-register' before browser sign-in."
 }
+

@@ -11,7 +11,7 @@ tested host and is not required by users.
 | Preflight/verification/QA | `tools/preflight.sh`, `tools/verify-install.sh`, `tools/qa.sh` |
 | Package source | `acct-*`, `app-autodesk/`, `media-gfx/` |
 | OpenRC service | `app-autodesk/adsk-licensing/files/adsklicensing.openrc` |
-| Validation record | `MAYA_GENTOO_HANDOFF.md` and `docs/TESTING.md` |
+| Validation record | `MAYA_GENTOO_HANDOFF_2026-09-17.md` and `docs/TESTING.md` |
 | Compatibility decisions | `docs/COMPATIBILITY.md`, `docs/TROUBLESHOOTING.md` |
 | Architecture | `docs/ARCHITECTURE.md` |
 

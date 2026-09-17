@@ -2,6 +2,9 @@
 # shellcheck disable=SC2016
 set -euo pipefail
 command -v qlist >/dev/null || { echo 'gentoolkit qlist is required' >&2; exit 1; }
+for command_name in rc-service patchelf xdg-mime; do
+  command -v "$command_name" >/dev/null || { echo "required command is missing: ${command_name}" >&2; exit 1; }
+done
 qlist -Iv media-gfx/maya app-autodesk/adsk-licensing app-autodesk/adsk-identity-manager app-autodesk/adp-desktop-sdk
 rc-service adsklicensing status
 test -x /opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper
@@ -18,7 +21,10 @@ old_needed=$(patchelf --print-needed /opt/Autodesk/AdskIdentityManager/Current/l
 grep -qx 'libwebkit2gtk-4.1.so.0' <<<"${old_needed}" || { echo 'Identity Manager WebKitGTK SONAME is not patched' >&2; exit 1; }
 grep -qx 'libjavascriptcoregtk-4.1.so.0' <<<"${old_needed}" || { echo 'Identity Manager JavaScriptCore SONAME is not patched' >&2; exit 1; }
 echo 'AdskLicensingInstHelper:'
-/opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper list | sed -n '1,80p'
+licensing_list=$(/opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper list)
+grep -q '657S1' <<<"${licensing_list}" || { echo 'Maya product 657S1 is not registered' >&2; exit 1; }
+grep -Eq 'authorize_succ[[:space:]]*:[[:space:]]*true' <<<"${licensing_list}" || { echo 'Autodesk licensing authorization is not successful' >&2; exit 1; }
+sed -n '1,80p' <<<"${licensing_list}"
 echo 'Identity handler:'
 handler=$(xdg-mime query default x-scheme-handler/adskidmgr)
 [[ -n ${handler} && ${handler} == *AdskIdentityManager* ]] || { echo "Autodesk callback handler is not registered: ${handler}" >&2; exit 1; }
