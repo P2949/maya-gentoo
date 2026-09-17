@@ -17,7 +17,7 @@ RDEPEND="
   media-libs/fontconfig
   media-libs/freetype
   x11-libs/gdk-pixbuf
-  media-libs/harfbuzz
+  media-libs/harfbuzz[icu]
   media-libs/libpng
   net-libs/libsoup:3.0
   net-misc/curl

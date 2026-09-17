@@ -33,6 +33,7 @@ normal Portage configuration):
     media-libs/freetype harfbuzz
     net-libs/webkit-gtk X
     media-libs/gst-plugins-base opengl
+    media-libs/harfbuzz icu
 
     sha256sum ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
     /var/db/repos/maya-gentoo/tools/import-autodesk-payload.sh \

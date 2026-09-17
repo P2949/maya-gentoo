@@ -171,6 +171,17 @@ Quick Start and Portage guide. The remaining isolated-graph conflicts were
 host-world/system package selections (including libclc and systemd-utils),
 not missing Maya overlay dependencies.
 
+The fresh-root graph then exposed one additional WebKit text-stack requirement:
+Harfbuzz ICU support. The ADP dependency now requests `harfbuzz[icu]`, and the
+same flag is documented for stable-profile users.
+
+With those flags enabled, an isolated empty-root stable-amd64 Portage graph
+resolved successfully with exit code 0. It planned 222 packages, including
+Maya, Identity Manager, ADP, Licensing, and the account packages from
+`::maya-gentoo`; no overlay package was masked and no unresolved USE or
+REQUIRED_USE condition remained. The graph was planned only, not merged, so
+proprietary fetch restrictions remain expected.
+
 The live authenticated desktop test also showed that Autodesk's
 `AdskIdentityManager --register` can remain resident without returning. The
 helper now bounds that subprocess to 30 seconds, installs the callback before

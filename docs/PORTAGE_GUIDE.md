@@ -52,6 +52,7 @@ the dry-run:
     media-libs/freetype harfbuzz
     net-libs/webkit-gtk X
     media-libs/gst-plugins-base opengl
+    media-libs/harfbuzz icu
 
 ## Merge order
 
