@@ -13,9 +13,9 @@ Download the official archive, preserve it unchanged, and verify it:
 
     sha256sum ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
 
-The completed project's importer is:
+The repository's importer is:
 
-    /home/p2949/src/native-maya-gentoo/scripts/import-autodesk-payload.sh \
+    /var/db/repos/maya-gentoo/tools/import-autodesk-payload.sh \
       ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
 
 It discovers component sources, copies them to Portage DISTDIR, records maps
@@ -24,17 +24,15 @@ rpm -i, rpm -U, or rpm --force.
 
 ## Local overlay
 
-The live overlay is /var/db/repos/local-autodesk and is registered with:
+The live repository is /var/db/repos/maya-gentoo and is registered with:
 
-    [local-autodesk]
-    location = /var/db/repos/local-autodesk
+    [maya-gentoo]
+    location = /var/db/repos/maya-gentoo
     masters = gentoo
     priority = 50
 
-The development overlay is
-/home/p2949/src/native-maya-gentoo/overlay-worktree/. It contains account
-packages, Autodesk Licensing, Identity Manager, ADP Desktop SDK, Maya, and
-separate MayaUSD/Bifrost/LookdevX/Substance packages.
+It contains account packages, Autodesk Licensing, Identity Manager, ADP
+Desktop SDK, Maya, and separate MayaUSD/Bifrost/LookdevX/Substance packages.
 
 After ebuild changes, regenerate Manifests, run pkgcheck, and perform a
 Portage dry-run. Reject resolver plans that downgrade or replace glibc,
@@ -95,8 +93,7 @@ ADLSDK_STATUS_OK.
 
 For Wayland/Xwayland, the tested scoped launch is:
 
-    env DISPLAY=:0 QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 \
-      XDG_SESSION_TYPE=x11 /usr/bin/maya
+    env QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 XDG_SESSION_TYPE=x11 maya
 
 The installed wrapper also unsets WAYLAND_DISPLAY, WAYLAND_SOCKET, and
 XDG_BACKEND, and exports the CA bundle only to Maya. Do not make these
@@ -129,8 +126,8 @@ replace Mesa or install AMDGPU-PRO for these messages.
 
 The tested results were MAYA_STANDALONE_OK, version 2027, Authorized,
 ADLSDK_STATUS_OK, and a clean re-emerge. VP2.0 reported AMD Radeon RX 9070 XT
-(radeonsi), Mesa 26.2.0-devel, OpenGL 4.6. Automated output is under
-/home/p2949/src/native-maya-gentoo/test-output/.
+(radeonsi), Mesa 26.2.0-devel, OpenGL 4.6. Raw automated output is not
+redistributed; the validation result is recorded in the hand-off.
 
 ## Maintenance and safety
 

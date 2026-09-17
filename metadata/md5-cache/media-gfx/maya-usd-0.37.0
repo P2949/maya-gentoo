@@ -1,0 +1,14 @@
+BDEPEND=|| ( app-arch/rpm2targz >=app-arch/rpm-4.19.0[lzma(+)] )
+DEFINED_PHASES=install unpack
+DESCRIPTION=Autodesk MayaUSD 0.37.0 for Maya 2027
+EAPI=8
+HOMEPAGE=https://github.com/Autodesk/maya-usd
+INHERIT=rpm
+KEYWORDS=~amd64
+LICENSE=Apache-2.0
+RDEPEND=media-gfx/maya:2027
+RESTRICT=fetch mirror strip
+SLOT=2027
+SRC_URI=MayaUSD2027-202606101214-3bb5562-0.37.0-1.x86_64.rpm
+_eclasses_=eapi9-pipestatus	d2c134036ac31c3085aebc9147f572bd	estack	c61c368a76fdf3a82fdf8dbaebea3804	toolchain-funcs	58a918e3a42d0156f010dcfd43725be5	rpm	716d8645cb3f94e78951eda6c33e0546
+_md5_=4c4ed7d773461b01d0377d3ca7081666

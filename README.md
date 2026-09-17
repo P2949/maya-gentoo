@@ -4,6 +4,35 @@ This repository documents the tested native-Portage installation of Autodesk
 Maya 2027.2 on Gentoo. Autodesk officially targets RHEL/Rocky Linux, so this
 is an unsupported community packaging effort.
 
+## Quick start
+
+The configured public origin is:
+
+    https://github.com/P2949/maya-gentoo.git
+
+With eselect-repository:
+
+    doas eselect repository add maya-gentoo git https://github.com/P2949/maya-gentoo.git
+    doas emaint sync -r maya-gentoo
+
+Or clone this repository and register the checkout in
+/etc/portage/repos.conf/maya-gentoo.conf with repo-name maya-gentoo. Download
+the official Autodesk archive, verify its hash, and import it:
+
+    sha256sum ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
+    /var/db/repos/maya-gentoo/tools/import-autodesk-payload.sh \
+      ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
+
+Then install and start licensing:
+
+    doas emerge --ask media-gfx/maya
+    doas rc-update add adsklicensing default
+    doas rc-service adsklicensing start
+    maya
+
+Complete Autodesk sign-in/MFA only when Autodesk requests it. Optional
+components can be emerged separately after base Maya is working.
+
 ## Start here
 
 - [Portage installation guide](docs/PORTAGE_GUIDE.md)

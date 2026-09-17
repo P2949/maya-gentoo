@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata>
+<pkgmetadata>
+  <maintainer type="person">
+    <email>maya-gentoo@example.org</email>
+    <name>Maya Gentoo maintainers</name>
+  </maintainer>
+  <longdescription>
+    Native Autodesk Maya and supporting components for Gentoo. Autodesk
+    payloads are proprietary and are not redistributed by this repository.
+  </longdescription>
+</pkgmetadata>

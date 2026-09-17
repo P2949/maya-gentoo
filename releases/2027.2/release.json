@@ -1,0 +1,25 @@
+{
+  "maya_release": "2027.2",
+  "maya_build": "1839",
+  "archive_filename": "Autodesk_Maya_2027_2_Update_Linux_64bit.tgz",
+  "archive_sha256": "399250a3a2c306a403053da077221f7592170ca0d6196b8cbf2bfd17e25f94fe",
+  "tested_date": "2026-09-16",
+  "packages": [
+    "acct-group/adsklic", "acct-user/adsklic",
+    "app-autodesk/adsk-licensing",
+    "app-autodesk/adsk-identity-manager",
+    "app-autodesk/adp-desktop-sdk",
+    "media-gfx/maya", "media-gfx/maya-usd", "media-gfx/bifrost",
+    "media-gfx/lookdevx", "media-gfx/substance-maya"
+  ],
+  "required_component_families": ["maya", "licensing", "identity", "adp-sdk"],
+  "optional_components": ["maya-usd", "bifrost", "lookdevx", "substance"],
+  "absent_from_tested_payload": ["arnold-mtoa"],
+  "registration_metadata_source": "MayaConfig.pit and Autodesk installer metadata",
+  "tested_environment": {
+    "init": "OpenRC",
+    "desktop": "Wayland with Xwayland/XCB",
+    "graphics": "AMD Mesa/radeonsi",
+    "architecture": "amd64"
+  }
+}

@@ -1,0 +1,4 @@
+[maya-gentoo]
+location = /var/db/repos/maya-gentoo
+masters = gentoo
+priority = 50

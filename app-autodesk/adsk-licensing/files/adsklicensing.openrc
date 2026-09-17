@@ -1,0 +1,8 @@
+#!/sbin/openrc-run
+command="/opt/Autodesk/AdskLicensing/Current/AdskLicensingService/AdskLicensingService"
+command_args="--run"
+command_user="adsklic:adsklic"
+pidfile="/run/${RC_SVCNAME}.pid"
+command_background=true
+respawn_delay=1
+depend() { need localmount; after bootmisc net; }
