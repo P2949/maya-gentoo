@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata>
 <pkgmetadata>
   <maintainer type="person">
-    <email>maya-gentoo@example.org</email>
+    <email>github@users.noreply.github.com</email>
     <name>Maya Gentoo maintainers</name>
   </maintainer>
   <longdescription>Autodesk infrastructure required by native Maya on Gentoo.</longdescription>

@@ -6,7 +6,7 @@ HOMEPAGE="https://www.autodesk.com/"
 LICENSE="all-rights-reserved"
 SLOT="0"
 KEYWORDS="~amd64"
-RESTRICT="fetch mirror strip"
+RESTRICT="fetch mirror strip bindist"
 BDEPEND="dev-util/patchelf"
 RDEPEND="net-libs/webkit-gtk:4.1
   app-misc/ca-certificates"
@@ -33,4 +33,5 @@ src_install() {
     "${ED}/opt/Autodesk/AdskIdentityManager/1.18.1.2/" || die
   fperms 0755 /opt/Autodesk/AdskIdentityManager/1.18.1.2/AdskIdentityManager
   dosym /opt/Autodesk/AdskIdentityManager/1.18.1.2 /opt/Autodesk/AdskIdentityManager/Current
+  newbin "${FILESDIR}/adsk-identity-register" adsk-identity-register
 }

@@ -135,3 +135,31 @@ review Git history for secrets and payloads, commit, and push if the origin is
 writable. Preserve the disabled old-repository configuration as a recoverable
 backup. Do not touch boot entries, EFI/NVRAM, kernels, initramfs, bootloaders,
 or boot partitions.
+
+## Public-overlay hardening pass
+
+The public install path now documents scoped `~amd64` keyword and
+`all-rights-reserved` licence acceptance, calls `emerge --config
+media-gfx/maya`, and provides the user-level `adsk-identity-register` helper.
+That helper runs Autodesk's `--register`, creates or normalizes
+`com.autodesk.AdskIdentityManager.desktop`, refreshes the desktop database when
+available, and associates `x-scheme-handler/adskidmgr` without performing
+per-user setup from an ebuild. A clean temporary Unix-user test verified the
+desktop file and MIME association; the upstream registration subprocess still
+requires a real desktop secret-service/session environment and reports that
+failure explicitly.
+
+The superseded unrevisioned Maya and Identity Manager ebuilds were removed.
+The `adsklic` account packages use dynamic IDs in revisioned `-r1` ebuilds.
+The importer now requires every family listed in `release.json`, stages final
+DISTDIR copies before a narrowly scoped writable-directory/doas step, and
+fails Bifrost installation when required payload directories are absent.
+Proprietary Autodesk packages carry `bindist` restrictions, and Autodesk CER
+state directories use sticky `1777` permissions. Metadata contacts and the
+Portage guide were refreshed.
+
+The current workstation's Portage configuration is owned by the separate
+optimization framework and currently omits a `maya-gentoo` repos.conf entry;
+`tools/preflight.sh` therefore fails its repository-registration gate on this
+host until the administrator registers the overlay in the active Portage
+configuration. This pass did not mutate that framework-owned configuration.

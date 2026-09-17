@@ -60,9 +60,12 @@ while IFS= read -r -d '' item; do
   printf '%s\t%s\t%s\t%s\n' "$kind" "$rel" "$hash" "$size" >> "$map_file"
 done
 
-grep -E $'^(maya|licensing|identity|adp-sdk)\t' "$map_file" >/dev/null || {
-  printf 'no required Autodesk component family found; refusing import\n' >&2; exit 1;
-}
+while IFS= read -r family; do
+  grep -F "${family}"$'\t' "$map_file" >/dev/null || {
+    printf 'required Autodesk component family missing: %s\n' "$family" >&2
+    exit 1
+  }
+done < <(sed -n '/"required_component_families"/ { s/.*\[//; s/\].*//; s/"//g; s/,/\n/g; p; }' "$release_file" | sed '/^[[:space:]]*$/d; s/^[[:space:]]*//; s/[[:space:]]*$//')
 
 if [[ $inspect -eq 1 ]]; then
   cat "$map_file"
@@ -72,7 +75,7 @@ fi
 
 distdir=${DISTDIR:-$(portageq envvar DISTDIR)}
 [[ -n $distdir ]] || { printf 'Portage DISTDIR is empty\n' >&2; exit 1; }
-mkdir -p "$distdir"
+mkdir -p "$work_root/distfiles"
 while IFS=$'\t' read -r kind rel hash size; do
   [[ $kind == kind ]] && continue
   src=$extract_dir/$rel
@@ -81,9 +84,20 @@ while IFS=$'\t' read -r kind rel hash size; do
     existing=$(sha256sum "$dst" | awk '{print $1}')
     [[ $existing == "$hash" ]] || { printf 'refusing to overwrite differing distfile: %s\n' "$dst" >&2; exit 1; }
   else
-    install -m 0644 "$src" "$dst"
+    install -m 0644 "$src" "$work_root/distfiles/${rel##*/}"
   fi
 done < "$map_file"
+
+if [[ -d "$work_root/distfiles" ]] && compgen -G "$work_root/distfiles/*" >/dev/null; then
+  if [[ -w "$distdir" ]]; then
+    install -m 0644 "$work_root"/distfiles/* "$distdir"/
+  elif command -v doas >/dev/null; then
+    doas install -m 0644 "$work_root"/distfiles/* "$distdir"/
+  else
+    printf 'DISTDIR is not writable and doas is unavailable: %s\n' "$distdir" >&2
+    exit 1
+  fi
+fi
 
 
 printf '%s\n' "$map_file"

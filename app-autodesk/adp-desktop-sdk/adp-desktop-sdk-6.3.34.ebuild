@@ -5,7 +5,7 @@ HOMEPAGE="https://www.autodesk.com/"
 LICENSE="all-rights-reserved"
 SLOT="0"
 KEYWORDS="~amd64"
-RESTRICT="fetch mirror strip"
+RESTRICT="fetch mirror strip bindist"
 BDEPEND="app-arch/unzip"
 RDEPEND="
   app-accessibility/at-spi2-core

@@ -6,7 +6,7 @@ HOMEPAGE="https://www.autodesk.com/products/maya/overview"
 LICENSE="all-rights-reserved"
 SLOT="2027"
 KEYWORDS="~amd64"
-RESTRICT="fetch mirror strip"
+RESTRICT="fetch mirror strip bindist"
 IUSE="opencl"
 RDEPEND="
   app-autodesk/adsk-licensing
@@ -99,6 +99,8 @@ pkg_config() {
 pkg_postinst() {
   # CER is a per-user service, but Autodesk's Linux payload hard-codes these
   # shared runtime roots.  Make only the required roots writable.
-  install -d -m 0777 /var/lib/Autodesk /var/lib/Autodesk/CER
+  install -d -m 1777 /var/lib/Autodesk /var/lib/Autodesk/CER
   install -d -m 1777 /usr/tmp
+  elog "Run 'emerge --config media-gfx/maya' to register Maya with Autodesk Licensing."
+  elog "As the desktop user, run 'adsk-identity-register' before browser sign-in."
 }

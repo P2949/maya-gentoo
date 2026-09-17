@@ -52,9 +52,9 @@ Desktop SDK, compatibility packages, Maya, and optional components:
 
 Tested packages:
 
-    media-gfx/maya-2027.2
+    media-gfx/maya-2027.2-r1
     app-autodesk/adsk-licensing-16.0.3.14414
-    app-autodesk/adsk-identity-manager-1.18.1.2
+    app-autodesk/adsk-identity-manager-1.18.1.2-r1
     app-autodesk/adp-desktop-sdk-6.3.34
     media-gfx/maya-usd-0.37.0
     media-gfx/bifrost-3.1.0.8
@@ -67,6 +67,11 @@ Tested packages:
     doas -n rc-service adsklicensing start
     rc-service adsklicensing status
     /opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper list
+
+Register Maya's product configuration and the desktop user's callback handler:
+
+    doas -n emerge --config media-gfx/maya
+    adsk-identity-register
 
 The tested registration had feature MAYA, product key 657S1, product version
 2027.0.0.F, user licensing method 4, cls_check_succ true, and authorize_succ
