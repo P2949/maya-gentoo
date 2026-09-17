@@ -17,6 +17,16 @@ controlling specification in
   `local-autodesk.conf.disabled`; the old overlay files were not deleted.
 - No proprietary archive, extracted RPM, credential, token, or license data is
   tracked in Git.
+- The completeness audit found no missing Autodesk-specific compatibility
+  ebuilds in the old overlay. TIFF, libxml2, OpenSSL, and MIT Kerberos ABI
+  providers are Gentoo packages; Maya now declares the compatibility/runtime
+  providers it actually loads (`media-libs/tiff-compat`,
+  `dev-libs/libxml2-compat`, `dev-libs/openssl-compat`, and
+  `app-crypt/mit-krb5`).
+- The three historical CA paths were unowned host artifacts. They contain the
+  same bytes as Gentoo's maintained CA bundle on this host. The Maya wrapper
+  now selects a readable CA path dynamically and does not require those
+  compatibility paths to be created by the overlay.
 
 ## Implemented repository contents
 
@@ -71,19 +81,21 @@ from the tested Autodesk payload.
 
 ## Known incomplete items and evidence
 
-Two installed components still retain the old VDB repository label:
+One installed component still retains the old VDB repository label:
 
-- `app-autodesk/adp-desktop-sdk-6.3.34`
 - `app-autodesk/adsk-identity-manager-1.18.1.2`
 
-The attempted rebuild from `::maya-gentoo` was blocked by the host's strict
-system-wide optimization policy. The identity package contains Autodesk's
-external absolute symlinks, which the policy rejects during QA, and removal of
-old-overlay instances can cross optimization framework generations. The
-licensing package and all tested Maya/optional component packages did migrate
-to `maya-gentoo`; the failed packages remain installed and functional from the
-previous build. No optimization policy, kernel, bootloader, EFI/NVRAM, or
-system-wide package configuration was weakened to bypass this blocker.
+ADP Desktop SDK now re-emerges successfully from `::maya-gentoo`. Identity
+Manager's package source was corrected to EAPI-8 relative `dosym` calls, but
+the host ABI guard intentionally rejects the resulting symlinks because they
+resolve outside the staged package tree. The separate optimization framework
+currently has no production parser/schema for package exclusions: its
+`exclusions.yaml` and `package-overrides.yaml` are intentionally empty and
+its policy tests enforce that baseline. No unsupported exclusion format,
+optimization bypass, kernel, bootloader, EFI/NVRAM, or system-wide policy
+weakening was introduced. Maya, licensing, ADP, and all tested optional
+component packages are now owned by `maya-gentoo`; Identity Manager remains
+functional from its previous installed instance.
 
 The package Manifest was regenerated after the repository-only ADP ebuild
 metadata change. `tools/qa.sh` passes its repository checks; `pkgcheck` still

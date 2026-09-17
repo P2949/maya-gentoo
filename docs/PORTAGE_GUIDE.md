@@ -108,9 +108,15 @@ package installs a private empty /usr/autodesk/maya2027/lib/libmd.so.
 Autodesk's bundled networking code probed these Gentoo-missing certificate
 paths:
 
-    /usr/local/cert.pem
+    /etc/ssl/certs/ca-certificates.crt
     /etc/pki/tls/certs/ca-bundle.crt
     /usr/local/share/certs/ca-root-nss.crt
+    /usr/local/cert.pem
+
+The Maya wrapper selects the first readable path at runtime, preferring
+Gentoo's maintained `/etc/ssl/certs/ca-certificates.crt`. None of the other
+paths is created or owned by this overlay; they are compatibility locations
+that may already exist on other distributions.
 
 The libtiff version-information warning is non-fatal. Mesa/Rusticl may report
 no AMD OpenCL device while Viewport 2.0 still uses AMD/Mesa OpenGL. Do not

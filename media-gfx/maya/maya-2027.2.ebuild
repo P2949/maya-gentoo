@@ -32,12 +32,16 @@ RDEPEND="
   dev-libs/expat
   dev-libs/glib:2
   dev-libs/libxml2
+  dev-libs/libxml2-compat
   dev-libs/openssl
+  dev-libs/openssl-compat
   dev-libs/wayland
+  app-crypt/mit-krb5
   media-libs/fontconfig
   media-libs/freetype
   media-libs/glew
   media-libs/libpng
+  media-libs/tiff-compat
   sys-libs/zlib
   x11-libs/gtk+:3
   opencl? ( virtual/opencl )
@@ -58,12 +62,18 @@ src_prepare() {
        export QT_QPA_PLATFORM=xcb\
        export XDG_SESSION_TYPE=x11\
    fi' usr/autodesk/maya2027/bin/maya2027 || die
-    # Identity Manager 1.18.1.2 may fall back to /usr/local/cert.pem.  Pass
-    # Gentoo's maintained CA bundle explicitly to the licensing subprocess.
+    # Identity Manager 1.18.1.2 may fall back to a Red Hat or FreeBSD CA
+    # path. Select Gentoo's maintained bundle without requiring an unowned
+    # compatibility file or symlink on a fresh host.
     sed -i '/^export GDK_BACKEND=x11$/a\
    unset WAYLAND_DISPLAY WAYLAND_SOCKET XDG_BACKEND\
-   export SSL_CERT_FILE=/usr/local/cert.pem\
-   export CURL_CA_BUNDLE=/usr/local/cert.pem' usr/autodesk/maya2027/bin/maya2027 || die
+   for adsk_ca in /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt /usr/local/share/certs/ca-root-nss.crt /usr/local/cert.pem; do\
+       if [[ -r "${adsk_ca}" ]]; then\
+           export SSL_CERT_FILE="${adsk_ca}"\
+           export CURL_CA_BUNDLE="${adsk_ca}"\
+           break\
+       fi\
+   done' usr/autodesk/maya2027/bin/maya2027 || die
     default
 }
 src_install() {

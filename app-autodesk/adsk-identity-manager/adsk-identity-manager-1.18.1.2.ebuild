@@ -18,8 +18,8 @@ src_install() {
   # The Autodesk binary uses the WebKitGTK 4.0 sonames.  Gentoo's current
   # WebKitGTK slot exposes the compatible 4.1 libraries; keep the mapping
   # private to Identity Manager rather than adding global linker aliases.
-  dosym /usr/lib64/libwebkit2gtk-4.1.so.0 /opt/Autodesk/AdskIdentityManager/1.18.1.2/libwebkit2gtk-4.0.so.37
-  dosym /usr/lib64/libjavascriptcoregtk-4.1.so.0 /opt/Autodesk/AdskIdentityManager/1.18.1.2/libjavascriptcoregtk-4.0.so.18
+  dosym -r /usr/lib64/libwebkit2gtk-4.1.so.0 /opt/Autodesk/AdskIdentityManager/1.18.1.2/libwebkit2gtk-4.0.so.37
+  dosym -r /usr/lib64/libjavascriptcoregtk-4.1.so.0 /opt/Autodesk/AdskIdentityManager/1.18.1.2/libjavascriptcoregtk-4.0.so.18
   fperms 0755 /opt/Autodesk/AdskIdentityManager/1.18.1.2/AdskIdentityManager
   dosym /opt/Autodesk/AdskIdentityManager/1.18.1.2 /opt/Autodesk/AdskIdentityManager/Current
 }
