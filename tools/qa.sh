@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+repo_root=$(cd -P -- "$(dirname -- "$0")/.." && pwd)
 cd "$repo_root"
 fail=0
 while IFS= read -r -d '' f; do bash -n "$f" || fail=1; done < <(find . -type f -name '*.sh' -print0)
@@ -11,7 +11,7 @@ fi
 if command -v pkgcheck >/dev/null; then
   # Scan only Gentoo category trees; docs, tools, and release metadata are not
   # package categories and otherwise produce UnknownCategoryDirs noise.
-  pkgcheck scan --net none acct-group acct-user app-autodesk media-gfx || fail=1
+  pkgcheck scan --net none acct-group acct-user app-autodesk media-gfx --exit error || fail=1
 fi
 [[ -z $(git ls-files '*.rpm' '*.tgz' '*.zip' '*.tar.gz') ]] || { echo 'proprietary payload tracked' >&2; fail=1; }
 if git grep -n -E '/home/p2949|DISPLAY=:0|overlay-worktree|/var/db/repos/local-autodesk' -- \

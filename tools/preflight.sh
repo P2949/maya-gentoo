@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+repo_root=$(cd -P -- "$(dirname -- "$0")/.." && pwd)
 printf 'repository: %s\n' "$repo_root"
 command -v emerge >/dev/null || { echo 'Portage emerge is required' >&2; exit 1; }
 command -v portageq >/dev/null || { echo 'Portage portageq is required' >&2; exit 1; }

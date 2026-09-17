@@ -4,8 +4,8 @@ set -euo pipefail
 # Import an official Autodesk Maya Linux outer archive into Portage DISTDIR.
 # This script never installs RPMs and never commits proprietary payloads.
 
-script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-repo_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
+script_dir=$(cd -P -- "$(dirname -- "$0")" && pwd)
+repo_root=$(cd -P -- "$script_dir/.." && pwd)
 release_file="$repo_root/releases/2027.2/release.json"
 usage() { printf 'Usage: %s [--inspect] OFFICIAL_MAYA_INSTALLER\n' "$0" >&2; exit 2; }
 inspect=0

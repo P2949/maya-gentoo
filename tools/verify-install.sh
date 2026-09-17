@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2016
 set -euo pipefail
 command -v qlist >/dev/null || { echo 'gentoolkit qlist is required' >&2; exit 1; }
 qlist -Iv media-gfx/maya app-autodesk/adsk-licensing app-autodesk/adsk-identity-manager app-autodesk/adp-desktop-sdk
