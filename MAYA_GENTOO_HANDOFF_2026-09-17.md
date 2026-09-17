@@ -61,12 +61,12 @@ writes proprietary payloads into the repository.
 The following checks passed on the target Gentoo host:
 
 1. `portageq get_repo_path / maya-gentoo` resolves to the new live checkout.
-2. `media-gfx/maya-2027.2-r1` is recorded in the VDB with repository
+2. `media-gfx/maya-2027.2-r2` is recorded in the VDB with repository
    `maya-gentoo`.
-3. `media-gfx/maya-2027.2-r1` was re-emerged from `::maya-gentoo`; the
+3. `media-gfx/maya-2027.2-r2` was re-emerged from `::maya-gentoo`; the
    revision carries the launcher/runtime corrections made after the original
    `2027.2` publication.
-4. `app-autodesk/adsk-identity-manager-1.18.1.2-r1` was re-emerged from
+4. `app-autodesk/adsk-identity-manager-1.18.1.2-r2` was re-emerged from
    `::maya-gentoo` and records `maya-gentoo` in its VDB.
 5. `app-autodesk/adp-desktop-sdk-6.3.34` records `maya-gentoo` in its VDB.
 6. The OpenRC `adsklicensing` service is started.
@@ -86,7 +86,7 @@ from the tested Autodesk payload.
 
 ## Closure results and remaining host diagnostic
 
-Identity Manager revision `1.18.1.2-r1` eliminates the package-external
+Identity Manager revision `1.18.1.2-r2` eliminates the package-external
 WebKitGTK compatibility links. Inspection of the actual RPM found exactly one
 consumer of the obsolete SONAMEs: `libIdServicesCore.so`. The ebuild uses
 `dev-util/patchelf` in `src_prepare()` to replace
@@ -174,6 +174,18 @@ not missing Maya overlay dependencies.
 The fresh-root graph then exposed one additional WebKit text-stack requirement:
 Harfbuzz ICU support. The ADP dependency now requests `harfbuzz[icu]`, and the
 same flag is documented for stable-profile users.
+
+The resulting empty-root plan reported two downgrades, both caused by the
+current Gentoo repository snapshot's live versions rather than by the Maya
+overlay: `dev-util/wayland-scanner-1.26.0` replaced installed `9999`, and
+`dev-util/mesa_clc-26.2.2` replaced installed `9999`. Both were planned only
+inside the temporary target root; neither was applied to the workstation.
+
+The final repository-correctness revisions are Maya `2027.2-r2`, Identity
+Manager `1.18.1.2-r2`, and ADP Desktop SDK `6.3.34-r1`. Identity Manager now
+declares `x11-misc/xdg-utils` and `sys-apps/coreutils` for its registration
+helper. The repository intentionally no longer commits `metadata/md5-cache`;
+`tools/qa.sh` rejects any orphan cache if one is reintroduced.
 
 With those flags enabled, an isolated empty-root stable-amd64 Portage graph
 resolved successfully with exit code 0. It planned 222 packages, including

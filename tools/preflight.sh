@@ -7,7 +7,15 @@ command -v portageq >/dev/null || { echo 'Portage portageq is required' >&2; exi
 portageq get_repo_path / maya-gentoo || { echo 'maya-gentoo is not registered with Portage' >&2; exit 1; }
 [[ $(uname -m) == amd64 || $(uname -m) == x86_64 ]] || { echo 'unsupported architecture: Maya overlay requires amd64' >&2; exit 1; }
 printf 'architecture: '; uname -m
-printf 'init: '; if [[ -d /run/openrc ]]; then echo OpenRC; elif [[ -d /run/systemd/system ]]; then echo systemd; else echo unknown; fi
+if [[ -d /run/openrc ]]; then
+  echo 'init: OpenRC'
+elif [[ -d /run/systemd/system ]]; then
+  echo 'current repository release supports OpenRC licensing integration only; systemd is not validated' >&2
+  exit 1
+else
+  echo 'OpenRC runtime not detected; current repository release supports OpenRC licensing integration only' >&2
+  exit 1
+fi
 printf 'DISTDIR: '; portageq envvar DISTDIR
 command -v Xwayland >/dev/null || { echo 'Xwayland is required for the tested Maya GUI path' >&2; exit 1; }
 echo 'Xwayland: available'

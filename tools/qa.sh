@@ -14,6 +14,16 @@ if command -v pkgcheck >/dev/null; then
   pkgcheck scan --net none acct-group acct-user app-autodesk media-gfx --exit error || fail=1
 fi
 [[ -z $(git ls-files '*.rpm' '*.tgz' '*.zip' '*.tar.gz') ]] || { echo 'proprietary payload tracked' >&2; fail=1; }
+while IFS= read -r -d '' cache; do
+  rel=${cache#metadata/md5-cache/}
+  category=${rel%%/*}
+  cpv=${rel#*/}
+  pkg=${cpv%-*}
+  [[ -n $(find "$category" -type f -name "${pkg}-*.ebuild" -print -quit 2>/dev/null) ]] || {
+    echo "orphan metadata cache entry: $cache" >&2
+    fail=1
+  }
+done < <(find metadata/md5-cache -type f -print0)
 if git grep -n -E '/home/p2949|DISPLAY=:0|overlay-worktree|/var/db/repos/local-autodesk' -- \
   ':!tools/qa.sh' ':!MAYA_GENTOO_REPOSITORY_AUTONOMOUS_PLAN.md' \
   ':!MAYA_GENTOO_HANDOFF.md' ':!NATIVE_MAYA_GENTOO_AUTONOMOUS_PLAN.md'; then

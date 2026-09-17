@@ -9,7 +9,9 @@ KEYWORDS="~amd64"
 RESTRICT="fetch mirror strip bindist"
 BDEPEND="dev-util/patchelf"
 RDEPEND="net-libs/webkit-gtk:4.1[X]
-  app-misc/ca-certificates"
+  app-misc/ca-certificates
+  x11-misc/xdg-utils
+  sys-apps/coreutils"
 SRC_URI="adskidentitymanager1.18.1.2-1.x86_64.rpm"
 S=${WORKDIR}
 src_unpack() { rpm_unpack; }

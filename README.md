@@ -39,17 +39,23 @@ normal Portage configuration):
     /var/db/repos/maya-gentoo/tools/import-autodesk-payload.sh \
       ~/Downloads/Autodesk_Maya_2027_2_Update_Linux_64bit.tgz
 
-Then install, run Maya's Portage registration hook, and start licensing:
+The current release supports OpenRC licensing integration only. Then install,
+start licensing, run Maya's Portage registration hook, and register the
+desktop callback:
 
     doas emerge --ask media-gfx/maya
-    doas emerge --config media-gfx/maya
     doas rc-update add adsklicensing default
     doas rc-service adsklicensing start
+    doas emerge --config media-gfx/maya
     adsk-identity-register
     maya
 
-Complete Autodesk sign-in/MFA only when Autodesk requests it. Optional
-components can be emerged separately after base Maya is working.
+Complete Autodesk sign-in/MFA only when Autodesk requests it. If
+`adsk-identity-register` reports exit 124, the callback was installed but
+Autodesk's upstream registration process did not return within 30 seconds;
+verify `xdg-mime query default x-scheme-handler/adskidmgr` and continue with
+the browser sign-in. Optional components can be emerged separately after base
+Maya is working.
 
 ## Start here
 

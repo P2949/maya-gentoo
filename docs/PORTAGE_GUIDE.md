@@ -59,18 +59,18 @@ the dry-run:
 Merge account packages if required, then Licensing, Identity Manager, ADP
 Desktop SDK, compatibility packages, Maya, and optional components:
 
-    doas -n emerge --pretend --verbose \
+    doas emerge --pretend --verbose \
       app-autodesk/adsk-licensing app-autodesk/adsk-identity-manager \
       app-autodesk/adp-desktop-sdk media-gfx/maya
-    doas -n emerge \
+    doas emerge \
       app-autodesk/adsk-licensing app-autodesk/adsk-identity-manager \
       app-autodesk/adp-desktop-sdk media-gfx/maya
 
 Tested packages:
 
-    media-gfx/maya-2027.2-r1
+    media-gfx/maya-2027.2-r2
     app-autodesk/adsk-licensing-16.0.3.14414
-    app-autodesk/adsk-identity-manager-1.18.1.2-r1
+    app-autodesk/adsk-identity-manager-1.18.1.2-r2
     app-autodesk/adp-desktop-sdk-6.3.34
     media-gfx/maya-usd-0.37.0
     media-gfx/bifrost-3.1.0.8
@@ -79,14 +79,14 @@ Tested packages:
 
 ## Licensing and Identity Manager
 
-    doas -n rc-update add adsklicensing default
-    doas -n rc-service adsklicensing start
+    doas rc-update add adsklicensing default
+    doas rc-service adsklicensing start
     rc-service adsklicensing status
     /opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper list
 
 Register Maya's product configuration and the desktop user's callback handler:
 
-    doas -n emerge --config media-gfx/maya
+    doas emerge --config media-gfx/maya
     adsk-identity-register
 
 The tested registration had feature MAYA, product key 657S1, product version
@@ -149,7 +149,7 @@ replace Mesa or install AMDGPU-PRO for these messages.
     /opt/Autodesk/AdskLicensing/Current/helper/AdskLicensingInstHelper list
     /usr/autodesk/maya2027/bin/mayapy -c 'import maya.standalone; maya.standalone.initialize(); print("MAYA_STANDALONE_OK"); maya.standalone.uninitialize()'
     /usr/bin/maya -batch -command 'print(about -version); quit -f'
-    doas -n emerge -1 media-gfx/maya
+    doas emerge -1 media-gfx/maya
 
 The tested results were MAYA_STANDALONE_OK, version 2027, Authorized,
 ADLSDK_STATUS_OK, and a clean re-emerge. VP2.0 reported AMD Radeon RX 9070 XT
@@ -160,7 +160,7 @@ redistributed; the validation result is recorded in the hand-off.
 
 For a same-version reinstall:
 
-    doas -n emerge -1 media-gfx/maya
+    doas emerge -1 media-gfx/maya
 
 For updates, import and hash the new official payload, derive versions and
 registration from its metadata, update ebuilds, regenerate Manifests, run

@@ -8,7 +8,7 @@ Maintainers should run:
 
 The final tested installation also used the Portage command:
 
-    doas -n emerge -1 media-gfx/maya
+    doas emerge -1 media-gfx/maya
 
 GUI validation must confirm licensing success and VP2.0 host graphics. The
 automated scene evidence from the original validation is recorded in the
