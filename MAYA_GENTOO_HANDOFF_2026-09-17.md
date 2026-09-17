@@ -163,3 +163,9 @@ optimization framework and currently omits a `maya-gentoo` repos.conf entry;
 `tools/preflight.sh` therefore fails its repository-registration gate on this
 host until the administrator registers the overlay in the active Portage
 configuration. This pass did not mutate that framework-owned configuration.
+
+The live authenticated desktop test also showed that Autodesk's
+`AdskIdentityManager --register` can remain resident without returning. The
+helper now bounds that subprocess to 30 seconds, installs the callback before
+reporting the timeout, and returns status 124 with an explicit diagnostic;
+this prevents a hung registration process from blocking the user's shell.
